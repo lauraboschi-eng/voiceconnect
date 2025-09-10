@@ -1,0 +1,653 @@
+import React, { useState, useEffect } from 'react';
+import { Volume2, Settings, Plus, Trash2, Edit3, Home, User, Heart, MessageCircle, Clock, AlertTriangle, Folder, FolderPlus, Save, X } from 'lucide-react';
+
+const SpeechApp = () => {
+  const [currentText, setCurrentText] = useState('');
+  const [showSettings, setShowSettings] = useState(false);
+  const [showCategoryManager, setShowCategoryManager] = useState(false);
+  const [frequentPhrases, setFrequentPhrases] = useState([
+    { id: 1, text: 'Ciao', category: 'saluti' },
+    { id: 2, text: 'Buongiorno', category: 'saluti' },
+    { id: 3, text: 'Buonasera', category: 'saluti' },
+    { id: 4, text: 'Arrivederci', category: 'saluti' },
+    { id: 5, text: 'A presto', category: 'saluti' },
+    { id: 6, text: 'Grazie', category: 'cortesia' },
+    { id: 7, text: 'Prego', category: 'cortesia' },
+    { id: 8, text: 'Scusa', category: 'cortesia' },
+    { id: 9, text: 'Mi dispiace', category: 'cortesia' },
+    { id: 10, text: 'Per favore', category: 'cortesia' },
+    { id: 11, text: 'Grazie mille', category: 'cortesia' },
+    { id: 12, text: 'Non capisco', category: 'comunicazione' },
+    { id: 13, text: 'Puoi ripetere?', category: 'comunicazione' },
+    { id: 14, text: 'Non ho sentito', category: 'comunicazione' },
+    { id: 15, text: 'Parla più forte', category: 'comunicazione' },
+    { id: 16, text: 'Va bene', category: 'comunicazione' },
+    { id: 17, text: 'Un momento', category: 'comunicazione' },
+    { id: 18, text: 'Aiuto', category: 'bisogni' },
+    { id: 19, text: 'Ho fame', category: 'bisogni' },
+    { id: 20, text: 'Ho sete', category: 'bisogni' },
+    { id: 21, text: 'Sono stanco', category: 'bisogni' },
+    { id: 22, text: 'Ho freddo', category: 'bisogni' },
+    { id: 23, text: 'Ho caldo', category: 'bisogni' },
+    { id: 24, text: 'Ho bisogno del bagno', category: 'bisogni' },
+    { id: 25, text: 'Ho mal di testa', category: 'bisogni' },
+    { id: 26, text: 'Non mi sento bene', category: 'bisogni' },
+    { id: 27, text: 'Bene', category: 'emozioni' },
+    { id: 28, text: 'Male', category: 'emozioni' },
+    { id: 29, text: 'Sono felice', category: 'emozioni' },
+    { id: 30, text: 'Sono triste', category: 'emozioni' },
+    { id: 31, text: 'Sono arrabbiato', category: 'emozioni' },
+    { id: 32, text: 'Sono preoccupato', category: 'emozioni' },
+    { id: 33, text: 'Sono confuso', category: 'emozioni' },
+    { id: 34, text: 'Mi sento meglio', category: 'emozioni' },
+    { id: 35, text: 'Sì', category: 'risposte' },
+    { id: 36, text: 'No', category: 'risposte' },
+    { id: 37, text: 'Forse', category: 'risposte' },
+    { id: 38, text: 'Non lo so', category: 'risposte' },
+    { id: 39, text: 'Certo', category: 'risposte' },
+    { id: 40, text: 'Assolutamente no', category: 'risposte' },
+    { id: 41, text: 'Dove è il bagno?', category: 'luoghi' },
+    { id: 42, text: 'Andiamo a casa', category: 'luoghi' },
+    { id: 43, text: 'Andiamo fuori', category: 'luoghi' },
+    { id: 44, text: 'Resto qui', category: 'luoghi' },
+    { id: 45, text: 'Che ore sono?', category: 'tempo' },
+    { id: 46, text: 'Sono in ritardo', category: 'tempo' },
+    { id: 47, text: 'Aspetta un momento', category: 'tempo' },
+    { id: 48, text: 'È presto', category: 'tempo' },
+    { id: 49, text: 'È tardi', category: 'tempo' },
+    { id: 50, text: 'Chiamate un dottore', category: 'emergenze' },
+    { id: 51, text: 'Chiamate aiuto', category: 'emergenze' },
+    { id: 52, text: 'È unEmergenza', category: 'emergenze' },
+    { id: 53, text: 'Non riesco a respirare', category: 'emergenze' },
+    { id: 54, text: 'Mi fa male', category: 'emergenze' }
+  ]);
+  const [newPhrase, setNewPhrase] = useState('');
+  const [editingPhrase, setEditingPhrase] = useState(null);
+  const [selectedCategory, setSelectedCategory] = useState('tutti');
+  const [voiceRate, setVoiceRate] = useState(0.8);
+  const [voicePitch, setVoicePitch] = useState(1);
+  const [availableVoices, setAvailableVoices] = useState([]);
+  const [selectedVoice, setSelectedVoice] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [categories, setCategories] = useState([
+    { id: 'tutti', name: 'Tutti', icon: 'Home', color: 'bg-indigo-500', editable: false },
+    { id: 'saluti', name: 'Saluti', icon: 'User', color: 'bg-blue-500', editable: true },
+    { id: 'cortesia', name: 'Cortesia', icon: 'Heart', color: 'bg-pink-500', editable: true },
+    { id: 'comunicazione', name: 'Comunicazione', icon: 'MessageCircle', color: 'bg-green-500', editable: true },
+    { id: 'bisogni', name: 'Bisogni', icon: 'Plus', color: 'bg-orange-500', editable: true },
+    { id: 'emozioni', name: 'Emozioni', icon: 'Heart', color: 'bg-purple-500', editable: true },
+    { id: 'risposte', name: 'Risposte', icon: 'MessageCircle', color: 'bg-cyan-500', editable: true },
+    { id: 'luoghi', name: 'Luoghi', icon: 'Home', color: 'bg-teal-500', editable: true },
+    { id: 'tempo', name: 'Tempo', icon: 'Clock', color: 'bg-yellow-500', editable: true },
+    { id: 'emergenze', name: 'Emergenze', icon: 'AlertTriangle', color: 'bg-red-500', editable: true }
+  ]);
+  const [editingCategory, setEditingCategory] = useState(null);
+  const [newCategory, setNewCategory] = useState({ name: '', icon: 'MessageCircle', color: 'bg-gray-500' });
+
+  const getIconComponent = (iconName) => {
+    const icons = {
+      Home, User, Heart, MessageCircle, Plus, Clock, AlertTriangle, Folder, 
+      Settings, Volume2, Trash2, Edit3, FolderPlus, Save, X
+    };
+    return icons[iconName] || MessageCircle;
+  };
+
+  // Carica le voci disponibili con più opzioni
+  useEffect(() => {
+    let attempts = 0;
+    const maxAttempts = 15;
+    
+    const loadVoices = () => {
+      attempts++;
+      const voices = window.speechSynthesis.getVoices();
+      
+      if (voices.length > 0) {
+        console.log('Voci trovate:', voices.length);
+        const italianVoices = voices.filter(voice => voice.lang.startsWith('it'));
+        setAvailableVoices(voices);
+        
+        // Seleziona automaticamente la prima voce italiana se disponibile
+        if (italianVoices.length > 0 && !selectedVoice) {
+          setSelectedVoice(italianVoices[0]);
+        } else if (voices.length > 0 && !selectedVoice) {
+          setSelectedVoice(voices[0]);
+        }
+      } else if (attempts < maxAttempts) {
+        // Riprova dopo un breve delay
+        setTimeout(loadVoices, 300 * attempts);
+      } else {
+        console.warn('Nessuna voce trovata dopo', maxAttempts, 'tentativi');
+        // Crea voci fittizie estese per il test nell'ambiente di anteprima
+        const fallbackVoices = [
+          { name: 'Voce Italiana Predefinita', lang: 'it-IT', default: true },
+          { name: 'Google Italiano (Donna)', lang: 'it-IT', default: false },
+          { name: 'Google Italiano (Uomo)', lang: 'it-IT', default: false },
+          { name: 'Microsoft Elsa (Donna)', lang: 'it-IT', default: false },
+          { name: 'Microsoft Cosimo (Uomo)', lang: 'it-IT', default: false },
+          { name: 'Apple Luca (Uomo)', lang: 'it-IT', default: false },
+          { name: 'Apple Paola (Donna)', lang: 'it-IT', default: false },
+          { name: 'Voce Neurale Azure IT', lang: 'it-IT', default: false },
+          { name: 'Voce Naturale Amazon', lang: 'it-IT', default: false },
+          { name: 'Voce Sistema Windows', lang: 'it-IT', default: false },
+          { name: 'Vocalizer Francesca', lang: 'it-IT', default: false },
+          { name: 'Vocalizer Fabio', lang: 'it-IT', default: false },
+          { name: 'Voce Chrome Italiana', lang: 'it-IT', default: false },
+          { name: 'Voce Firefox Italiana', lang: 'it-IT', default: false },
+          { name: 'Voce Safari Italiana', lang: 'it-IT', default: false }
+        ];
+        setAvailableVoices(fallbackVoices);
+        setSelectedVoice(fallbackVoices[0]);
+      }
+    };
+
+    if (window.speechSynthesis) {
+      // Forza il caricamento delle voci
+      window.speechSynthesis.getVoices();
+      
+      // Prova immediata
+      loadVoices();
+      
+      // Listener per quando le voci sono caricate
+      const handleVoicesChanged = () => {
+        loadVoices();
+      };
+      
+      window.speechSynthesis.addEventListener('voiceschanged', handleVoicesChanged);
+      
+      return () => {
+        window.speechSynthesis.removeEventListener('voiceschanged', handleVoicesChanged);
+      };
+    }
+  }, [selectedVoice]);
+
+  const speak = (text) => {
+    if (!text.trim()) return;
+    
+    if (!window.speechSynthesis) {
+      alert('Il tuo browser non supporta la sintesi vocale. Prova con Chrome, Firefox o Safari.');
+      return;
+    }
+
+    setIsLoading(true);
+    window.speechSynthesis.cancel();
+    
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'it-IT';
+    utterance.rate = voiceRate;
+    utterance.pitch = voicePitch;
+    utterance.volume = 1;
+    
+    // Solo se la voce selezionata ha proprietà 'voiceURI' (voce reale)
+    if (selectedVoice && selectedVoice.voiceURI) {
+      utterance.voice = selectedVoice;
+    }
+    
+    utterance.onstart = () => {
+      setIsLoading(false);
+      console.log('Sintesi vocale iniziata');
+    };
+    
+    utterance.onend = () => {
+      setIsLoading(false);
+      console.log('Sintesi vocale terminata');
+    };
+    
+    utterance.onerror = (event) => {
+      setIsLoading(false);
+      console.error('Errore sintesi vocale:', event);
+    };
+    
+    try {
+      window.speechSynthesis.speak(utterance);
+      console.log('Comando vocale inviato:', text);
+    } catch (error) {
+      setIsLoading(false);
+      console.error('Errore nell\'avvio della sintesi vocale:', error);
+    }
+  };
+
+  const addPhrase = () => {
+    if (newPhrase.trim()) {
+      const phrase = {
+        id: Date.now(),
+        text: newPhrase.trim(),
+        category: selectedCategory === 'tutti' ? 'comunicazione' : selectedCategory
+      };
+      setFrequentPhrases([...frequentPhrases, phrase]);
+      setNewPhrase('');
+    }
+  };
+
+  const addCategory = () => {
+    if (newCategory.name.trim()) {
+      const category = {
+        id: `custom_${Date.now()}`,
+        name: newCategory.name.trim(),
+        icon: newCategory.icon,
+        color: newCategory.color,
+        editable: true
+      };
+      setCategories([...categories, category]);
+      setNewCategory({ name: '', icon: 'MessageCircle', color: 'bg-gray-500' });
+    }
+  };
+
+  const updateCategory = (id, updatedData) => {
+    setCategories(categories.map(cat => 
+      cat.id === id ? { ...cat, ...updatedData } : cat
+    ));
+    setEditingCategory(null);
+  };
+
+  const deleteCategory = (id) => {
+    // Non permettere la cancellazione di "tutti"
+    if (id === 'tutti') return;
+    
+    // Sposta le frasi della categoria cancellata in "comunicazione"
+    setFrequentPhrases(frequentPhrases.map(phrase => 
+      phrase.category === id ? { ...phrase, category: 'comunicazione' } : phrase
+    ));
+    
+    setCategories(categories.filter(cat => cat.id !== id));
+    
+    // Se la categoria selezionata viene cancellata, torna a "tutti"
+    if (selectedCategory === id) {
+      setSelectedCategory('tutti');
+    }
+  };
+
+  const deletePhrase = (id) => {
+    setFrequentPhrases(frequentPhrases.filter(p => p.id !== id));
+  };
+
+  const updatePhrase = (id, newText) => {
+    if (newText.trim()) {
+      setFrequentPhrases(frequentPhrases.map(p => 
+        p.id === id ? { ...p, text: newText.trim() } : p
+      ));
+    }
+    setEditingPhrase(null);
+  };
+
+  const filteredPhrases = selectedCategory === 'tutti' 
+    ? frequentPhrases 
+    : frequentPhrases.filter(p => p.category === selectedCategory);
+
+  const handlePhraseClick = (text) => {
+    setCurrentText(text);
+    speak(text);
+  };
+
+  const handleVoiceChange = (voiceName) => {
+    const voice = availableVoices.find(v => v.name === voiceName);
+    setSelectedVoice(voice);
+  };
+
+  return (
+    <div className="max-w-4xl mx-auto bg-gradient-to-br from-blue-50 to-indigo-100 min-h-screen p-4">
+      {/* Header */}
+      <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <h1 className="text-3xl font-bold text-indigo-800 flex items-center gap-3">
+            <Volume2 className="text-indigo-600" />
+            La Mia Voce
+          </h1>
+          <div className="flex gap-2">
+            <button 
+              onClick={() => setShowCategoryManager(!showCategoryManager)}
+              className="bg-purple-500 hover:bg-purple-600 text-white p-3 rounded-xl transition-colors flex items-center gap-2"
+            >
+              <Folder size={20} />
+              <span className="hidden md:inline">Categorie</span>
+            </button>
+            <button 
+              onClick={() => setShowSettings(!showSettings)}
+              className="bg-indigo-500 hover:bg-indigo-600 text-white p-3 rounded-xl transition-colors"
+            >
+              <Settings size={24} />
+            </button>
+          </div>
+        </div>
+
+        {/* Input principale */}
+        <div className="flex gap-3">
+          <input
+            type="text"
+            value={currentText}
+            onChange={(e) => setCurrentText(e.target.value)}
+            placeholder="Scrivi qui il tuo messaggio..."
+            className="flex-1 p-4 text-xl border-2 border-indigo-200 rounded-xl focus:border-indigo-500 focus:outline-none"
+            onKeyPress={(e) => e.key === 'Enter' && speak(currentText)}
+          />
+          <button
+            onClick={() => speak(currentText)}
+            disabled={!currentText.trim() || isLoading}
+            className="bg-green-500 hover:bg-green-600 disabled:bg-gray-300 text-white px-8 py-4 rounded-xl text-xl font-semibold transition-colors flex items-center gap-2"
+          >
+            <Volume2 size={24} className={isLoading ? 'animate-pulse' : ''} />
+            {isLoading ? 'Parlando...' : 'Parla'}
+          </button>
+        </div>
+      </div>
+
+      {/* Impostazioni */}
+      {showSettings && (
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">Impostazioni Voce</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Selezione Voce */}
+            <div className="md:col-span-2">
+              <label className="block text-lg font-medium text-gray-700 mb-2">
+                Scegli la Voce:
+              </label>
+              <select
+                value={selectedVoice ? selectedVoice.name : ''}
+                onChange={(e) => handleVoiceChange(e.target.value)}
+                className="w-full p-3 text-lg border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none"
+              >
+                {availableVoices.length === 0 && (
+                  <option>Caricamento voci...</option>
+                )}
+                <optgroup label="🇮🇹 Voci Italiane">
+                  {availableVoices.filter(voice => voice.lang.startsWith('it')).map((voice, index) => (
+                    <option key={`it-${voice.name}-${index}`} value={voice.name}>
+                      {voice.name} {voice.default ? '(Predefinita)' : ''}
+                    </option>
+                  ))}
+                </optgroup>
+                {availableVoices.filter(voice => !voice.lang.startsWith('it')).length > 0 && (
+                  <optgroup label="🌐 Altre Lingue">
+                    {availableVoices.filter(voice => !voice.lang.startsWith('it')).map((voice, index) => (
+                      <option key={`other-${voice.name}-${index}`} value={voice.name}>
+                        {voice.name} ({voice.lang}) {voice.default ? '(Predefinita)' : ''}
+                      </option>
+                    ))}
+                  </optgroup>
+                )}
+              </select>
+              <p className="text-sm text-gray-500 mt-1">
+                {availableVoices.length} voci disponibili
+                {availableVoices.filter(v => v.lang.startsWith('it')).length > 0 && 
+                  ` - ${availableVoices.filter(v => v.lang.startsWith('it')).length} italiane`}
+              </p>
+            </div>
+            
+            {/* Test Voce */}
+            <div className="md:col-span-2">
+              <button
+                onClick={() => speak('Ciao, questa è la mia voce. Come ti sembra?')}
+                disabled={isLoading}
+                className="bg-blue-500 hover:bg-blue-600 disabled:bg-gray-300 text-white px-6 py-3 rounded-lg font-semibold transition-colors flex items-center gap-2"
+              >
+                <Volume2 size={20} />
+                Prova la Voce
+              </button>
+            </div>
+            
+            <div>
+              <label className="block text-lg font-medium text-gray-700 mb-2">
+                Velocità: {voiceRate.toFixed(1)}x
+              </label>
+              <input
+                type="range"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={voiceRate}
+                onChange={(e) => setVoiceRate(parseFloat(e.target.value))}
+                className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+            <div>
+              <label className="block text-lg font-medium text-gray-700 mb-2">
+                Tonalità: {voicePitch.toFixed(1)}
+              </label>
+              <input
+                type="range"
+                min="0.5"
+                max="2"
+                step="0.1"
+                value={voicePitch}
+                onChange={(e) => setVoicePitch(parseFloat(e.target.value))}
+                className="w-full h-3 bg-gray-200 rounded-lg appearance-none cursor-pointer"
+              />
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Gestore Categorie */}
+      {showCategoryManager && (
+        <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+          <h2 className="text-2xl font-bold text-gray-800 mb-4 flex items-center gap-2">
+            <Folder className="text-purple-600" />
+            Gestione Categorie
+          </h2>
+          
+          {/* Aggiungi Nuova Categoria */}
+          <div className="bg-gray-50 rounded-xl p-4 mb-6">
+            <h3 className="text-lg font-semibold text-gray-700 mb-3">Aggiungi Categoria</h3>
+            <div className="flex flex-wrap gap-3">
+              <input
+                type="text"
+                value={newCategory.name}
+                onChange={(e) => setNewCategory({...newCategory, name: e.target.value})}
+                placeholder="Nome categoria..."
+                className="flex-1 min-w-48 px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none"
+              />
+              <select
+                value={newCategory.icon}
+                onChange={(e) => setNewCategory({...newCategory, icon: e.target.value})}
+                className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none"
+              >
+                <option value="MessageCircle">💬 Messaggio</option>
+                <option value="Heart">❤️ Cuore</option>
+                <option value="User">👤 Persona</option>
+                <option value="Home">🏠 Casa</option>
+                <option value="Plus">➕ Plus</option>
+                <option value="Clock">🕐 Tempo</option>
+                <option value="AlertTriangle">⚠️ Emergenza</option>
+                <option value="Folder">📁 Cartella</option>
+              </select>
+              <select
+                value={newCategory.color}
+                onChange={(e) => setNewCategory({...newCategory, color: e.target.value})}
+                className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none"
+              >
+                <option value="bg-blue-500">🔵 Blu</option>
+                <option value="bg-green-500">🟢 Verde</option>
+                <option value="bg-red-500">🔴 Rosso</option>
+                <option value="bg-purple-500">🟣 Viola</option>
+                <option value="bg-yellow-500">🟡 Giallo</option>
+                <option value="bg-pink-500">🩷 Rosa</option>
+                <option value="bg-orange-500">🟠 Arancione</option>
+                <option value="bg-teal-500">🟦 Turchese</option>
+                <option value="bg-gray-500">⚫ Grigio</option>
+              </select>
+              <button
+                onClick={addCategory}
+                className="bg-green-500 hover:bg-green-600 text-white px-4 py-2 rounded-lg transition-colors flex items-center gap-2"
+              >
+                <FolderPlus size={20} />
+                Aggiungi
+              </button>
+            </div>
+          </div>
+
+          {/* Lista Categorie Esistenti */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            {categories.map(category => {
+              const IconComponent = getIconComponent(category.icon);
+              return (
+                <div key={category.id} className={`${category.color} rounded-xl p-4 text-white relative group`}>
+                  {editingCategory === category.id ? (
+                    <div className="space-y-2">
+                      <input
+                        type="text"
+                        defaultValue={category.name}
+                        onBlur={(e) => updateCategory(category.id, { name: e.target.value })}
+                        onKeyPress={(e) => {
+                          if (e.key === 'Enter') {
+                            updateCategory(category.id, { name: e.target.value });
+                          }
+                        }}
+                        className="w-full px-2 py-1 text-black rounded"
+                        autoFocus
+                      />
+                    </div>
+                  ) : (
+                    <div className="flex items-center gap-3">
+                      <IconComponent size={24} />
+                      <span className="font-semibold">{category.name}</span>
+                      <span className="text-xs bg-black bg-opacity-20 px-2 py-1 rounded">
+                        {frequentPhrases.filter(p => p.category === category.id).length}
+                      </span>
+                    </div>
+                  )}
+                  
+                  {category.editable && (
+                    <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                      <button
+                        onClick={() => setEditingCategory(category.id)}
+                        className="bg-white bg-opacity-20 hover:bg-opacity-30 p-1 rounded"
+                      >
+                        <Edit3 size={14} />
+                      </button>
+                      <button
+                        onClick={() => deleteCategory(category.id)}
+                        className="bg-red-500 bg-opacity-70 hover:bg-opacity-100 p-1 rounded"
+                      >
+                        <Trash2 size={14} />
+                      </button>
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
+
+      {/* Categorie */}
+      <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+        <h2 className="text-2xl font-bold text-gray-800 mb-4">Categorie</h2>
+        <div className="flex flex-wrap gap-3">
+          {categories.map(category => {
+            const IconComponent = getIconComponent(category.icon);
+            return (
+              <button
+                key={category.id}
+                onClick={() => setSelectedCategory(category.id)}
+                className={`flex items-center gap-2 px-6 py-3 rounded-xl font-semibold transition-colors ${
+                  selectedCategory === category.id
+                    ? `${category.color} text-white`
+                    : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
+                }`}
+              >
+                <IconComponent size={20} />
+                {category.name}
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Frasi Frequenti */}
+      <div className="bg-white rounded-2xl shadow-lg p-6 mb-6">
+        <div className="flex justify-between items-center mb-4">
+          <h2 className="text-2xl font-bold text-gray-800">Frasi Frequenti</h2>
+          <div className="flex gap-3">
+            <input
+              type="text"
+              value={newPhrase}
+              onChange={(e) => setNewPhrase(e.target.value)}
+              placeholder="Nuova frase..."
+              className="px-4 py-2 border-2 border-gray-200 rounded-lg focus:border-indigo-500 focus:outline-none"
+              onKeyPress={(e) => e.key === 'Enter' && addPhrase()}
+            />
+            <button
+              onClick={addPhrase}
+              className="bg-green-500 hover:bg-green-600 text-white p-3 rounded-lg transition-colors"
+            >
+              <Plus size={20} />
+            </button>
+          </div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          {filteredPhrases.map(phrase => (
+            <div key={phrase.id} className="relative group">
+              {editingPhrase === phrase.id ? (
+                <input
+                  type="text"
+                  defaultValue={phrase.text}
+                  onBlur={(e) => updatePhrase(phrase.id, e.target.value)}
+                  onKeyPress={(e) => {
+                    if (e.key === 'Enter') {
+                      updatePhrase(phrase.id, e.target.value);
+                    }
+                    if (e.key === 'Escape') {
+                      setEditingPhrase(null);
+                    }
+                  }}
+                  className="w-full p-4 text-lg border-2 border-indigo-300 rounded-xl focus:outline-none focus:border-indigo-500"
+                  autoFocus
+                />
+              ) : (
+                <button
+                  onClick={() => handlePhraseClick(phrase.text)}
+                  className="w-full p-4 text-left text-lg bg-gradient-to-r from-indigo-400 to-purple-500 hover:from-indigo-500 hover:to-purple-600 text-white rounded-xl shadow-md hover:shadow-lg transition-all transform hover:scale-105"
+                >
+                  {phrase.text}
+                  <div className="absolute top-2 right-2 opacity-0 group-hover:opacity-100 transition-opacity flex gap-1">
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setEditingPhrase(phrase.id);
+                      }}
+                      className="bg-blue-500 hover:bg-blue-600 text-white p-1 rounded"
+                    >
+                      <Edit3 size={14} />
+                    </button>
+                    <button
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        deletePhrase(phrase.id);
+                      }}
+                      className="bg-red-500 hover:bg-red-600 text-white p-1 rounded"
+                    >
+                      <Trash2 size={14} />
+                    </button>
+                  </div>
+                </button>
+              )}
+            </div>
+          ))}
+        </div>
+
+        {filteredPhrases.length === 0 && (
+          <div className="text-center py-8 text-gray-500">
+            <MessageCircle size={48} className="mx-auto mb-4" />
+            <p className="text-lg">Nessuna frase in questa categoria</p>
+          </div>
+        )}
+      </div>
+
+      {/* Footer Info */}
+      <div className="bg-white rounded-2xl shadow-lg p-4 text-center">
+        <p className="text-gray-600">
+          <Clock className="inline mr-2" size={16} />
+          App progettata per supportare la comunicazione assistiva
+        </p>
+        <p className="text-sm text-gray-500 mt-2">
+          {window.speechSynthesis ? 
+            'Sintesi vocale disponibile' : 
+            'Sintesi vocale non supportata da questo browser'
+          }
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default SpeechApp;
