@@ -8,7 +8,7 @@
     <meta name="theme-color" content="#3B82F6">
     
     <!-- PWA Manifest -->
-    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22VoiceConnect%20-%20Comunicazione%20Assistiva%22%2C%22short_name%22%3A%22VoiceConnect%22%2C%22description%22%3A%22App%20di%20comunicazione%20assistiva%20per%20studenti%20con%20sintesi%20vocale%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%233B82F6%22%2C%22orientation%22%3A%22portrait%22%2C%22categories%22%3A%5B%22education%22%2C%22accessibility%22%2C%22health%22%5D%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjM0I4MkY2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgcng9IjQiLz48cGF0aCBkPSJNMTIgM0w2IDlIMnY2aDRsNiA2VjN6Ii8%2BPHBhdGggZD0iTTE5IDEwdjRoLTJ2LTRoMnoiLz48L3N2Zz4%3D%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%2C%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iNTEyIiBoZWlnaHQ9IjUxMiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjM0I4MkY2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgcng9IjQiLz48cGF0aCBkPSJNMTIgM0w2IDlIMnY2aDRsNiA2VjN6Ii8%2BPHBhdGggZD0iTTE5IDEwdjRoLTJ2LTRoMnoiLz48L3N2Zz4%3D%3D%22%2C%22sizes%22%3A%22512x512%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%2C%22purpose%22%3A%22any%20maskable%22%7D%5D%7D">
+    <link rel="manifest" href="data:application/json;charset=utf-8,%7B%22name%22%3A%22VoiceConnect%22%2C%22short_name%22%3A%22VoiceConnect%22%2C%22description%22%3A%22App%20comunicazione%20assistiva%22%2C%22start_url%22%3A%22%2F%22%2C%22display%22%3A%22standalone%22%2C%22background_color%22%3A%22%23ffffff%22%2C%22theme_color%22%3A%22%233B82F6%22%2C%22icons%22%3A%5B%7B%22src%22%3A%22data%3Aimage%2Fsvg%2Bxml%3Bbase64%2CPHN2ZyB3aWR0aD0iMTkyIiBoZWlnaHQ9IjE5MiIgdmlld0JveD0iMCAwIDI0IDI0IiBmaWxsPSIjM0I4MkY2IiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxyZWN0IHdpZHRoPSIyNCIgaGVpZ2h0PSIyNCIgZmlsbD0iI2ZmZiIgcng9IjQiLz48cGF0aCBkPSJNMTIgM0w2IDlIMnY2aDRsNiA2VjN6Ii8%2BPHBhdGggZD0iTTE5IDEwdjRoLTJ2LTRoMnoiLz48L3N2Zz4%3D%22%2C%22sizes%22%3A%22192x192%22%2C%22type%22%3A%22image%2Fsvg%2Bxml%22%7D%5D%7D">
     
     <!-- iOS PWA -->
     <meta name="apple-mobile-web-app-capable" content="yes">
@@ -39,12 +39,6 @@
             right: 20px;
             z-index: 1000;
             box-shadow: 0 20px 40px rgba(59, 130, 246, 0.3);
-            animation: slideIn 0.5s ease-out;
-        }
-        
-        @keyframes slideIn {
-            from { transform: translateY(-100px); opacity: 0; }
-            to { transform: translateY(0); opacity: 1; }
         }
         
         .phrase-card {
@@ -80,11 +74,6 @@
         .category-btn:not(.active) {
             background: #F1F5F9;
             color: #64748B;
-        }
-        
-        .category-btn:not(.active):hover {
-            background: #E2E8F0;
-            transform: translateY(-1px);
         }
         
         .loading-spinner {
@@ -169,6 +158,27 @@
             border-color: #3B82F6;
             box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
         }
+        
+        /* iOS Specific Fixes */
+        .ios-voice-warning {
+            background: linear-gradient(135deg, #F59E0B, #EF4444);
+            color: white;
+            border-radius: 12px;
+            padding: 16px;
+            margin: 16px 0;
+        }
+        
+        .voice-quality-indicator {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            margin-left: 8px;
+        }
+        
+        .quality-good { background: #10B981; }
+        .quality-poor { background: #EF4444; }
+        .quality-unknown { background: #6B7280; }
     </style>
 </head>
 
@@ -177,15 +187,10 @@
     <!-- Install Prompt -->
     <div id="install-prompt" class="install-prompt">
         <h3 class="text-xl font-bold mb-2">📱 Installa VoiceConnect</h3>
-        <p class="mb-4" id="install-text">Tocca "Installa" per aggiungere l'app al tuo dispositivo</p>
-        <div class="flex gap-3 justify-center">
-            <button id="install-btn" onclick="installApp()" class="bg-white bg-opacity-20 px-6 py-3 rounded-xl font-bold">
-                Installa
-            </button>
-            <button onclick="closeInstallPrompt()" class="bg-black bg-opacity-20 px-6 py-3 rounded-xl font-bold">
-                Chiudi
-            </button>
-        </div>
+        <p class="mb-4" id="install-text">Su iOS: Tocca Condividi (🔗) → "Aggiungi a Home"</p>
+        <button onclick="closeInstallPrompt()" class="bg-white bg-opacity-20 px-6 py-3 rounded-xl font-bold">
+            Ho Capito
+        </button>
     </div>
 
     <!-- Offline Banner -->
@@ -259,22 +264,41 @@
         <div id="settings-panel" class="glass rounded-3xl p-8 mb-8 shadow-xl" style="display: none;">
             <h2 class="text-2xl font-bold text-gray-800 mb-6">⚙️ Impostazioni Voce</h2>
             
+            <!-- iOS Voice Detection -->
+            <div id="ios-detection" style="display: none;">
+                <div class="ios-voice-warning">
+                    <h3 class="font-bold mb-2">📱 Rilevato iOS</h3>
+                    <p class="text-sm mb-3">Le voci Siri (come Luca) potrebbero non essere disponibili per le app web. Stiamo cercando le migliori voci italiane disponibili.</p>
+                    <button onclick="forceVoiceReload()" class="bg-white bg-opacity-20 px-4 py-2 rounded-lg font-semibold">
+                        🔄 Ricarica Voci
+                    </button>
+                </div>
+            </div>
+            
             <div class="grid md:grid-cols-2 gap-8">
                 <div>
                     <label class="block text-lg font-semibold text-gray-700 mb-3">
-                        🎤 Seleziona Voce
+                        🎤 Seleziona Voce <span id="voice-loading" class="text-sm text-gray-500">(caricamento...)</span>
                     </label>
                     <select id="voice-select" class="input-field">
-                        <option>Caricamento voci...</option>
+                        <option>🔄 Scansione voci in corso...</option>
                     </select>
-                    <p class="text-sm text-gray-500 mt-2" id="voice-info">
-                        Stiamo caricando le voci disponibili...
-                    </p>
+                    <div class="mt-2 p-3 bg-blue-50 rounded-lg">
+                        <p class="text-sm text-blue-800" id="voice-info">
+                            🔍 Analizzando voci disponibili...
+                        </p>
+                        <div id="voice-diagnostics" class="text-xs text-blue-600 mt-2" style="display: none;">
+                            <!-- Diagnostics will be inserted here -->
+                        </div>
+                    </div>
                 </div>
                 
                 <div>
-                    <button onclick="testVoice()" class="btn-primary w-full">
+                    <button onclick="testVoice()" class="btn-primary w-full mb-4">
                         🔊 Prova Voce Selezionata
+                    </button>
+                    <button onclick="runVoiceDiagnostic()" class="btn-secondary w-full">
+                        🔍 Diagnosi Voci iOS
                     </button>
                 </div>
                 
@@ -310,40 +334,25 @@
                     />
                 </div>
             </div>
+            
+            <!-- Voice Installation Help for iOS -->
+            <div id="ios-voice-help" class="mt-6 bg-orange-50 border border-orange-200 rounded-xl p-4" style="display: none;">
+                <h3 class="font-bold text-orange-800 mb-3">💡 Come Aggiungere Più Voci su iOS</h3>
+                <div class="text-sm text-orange-700 space-y-2">
+                    <p><strong>1. Impostazioni iPhone</strong> → <strong>Accessibilità</strong></p>
+                    <p><strong>2. Contenuti letti ad alta voce</strong> → <strong>Voci</strong></p>
+                    <p><strong>3. Italiano</strong> → <strong>Scarica</strong> tutte le voci disponibili</p>
+                    <p><strong>4. Ritorna</strong> a VoiceConnect e tocca "🔄 Ricarica Voci"</p>
+                    <p class="text-xs mt-3"><strong>Nota:</strong> Alcune voci Siri potrebbero non essere disponibili per le app web.</p>
+                </div>
+            </div>
         </div>
 
         <!-- Categories -->
         <div class="glass rounded-3xl p-8 mb-8 shadow-xl">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-bold text-gray-800">📁 Categorie</h2>
-                <button onclick="toggleCategoryManager()" class="btn-secondary">
-                    ➕ Gestisci Categorie
-                </button>
-            </div>
-            
+            <h2 class="text-2xl font-bold text-gray-800 mb-6">📁 Categorie</h2>
             <div id="categories" class="flex flex-wrap gap-3 mb-6">
                 <!-- Categories will be inserted here -->
-            </div>
-
-            <!-- Category Manager -->
-            <div id="category-manager" class="bg-blue-50 rounded-2xl p-6 mt-6" style="display: none;">
-                <h3 class="text-xl font-semibold text-gray-800 mb-4">➕ Aggiungi Nuova Categoria</h3>
-                <div class="flex gap-4 mb-4">
-                    <input 
-                        id="new-category-name"
-                        type="text" 
-                        placeholder="Nome categoria..."
-                        class="input-field flex-1"
-                    />
-                    <button onclick="addNewCategory()" class="btn-primary">
-                        Aggiungi
-                    </button>
-                </div>
-                
-                <!-- Custom Categories List -->
-                <div id="custom-categories" class="grid md:grid-cols-2 gap-4">
-                    <!-- Custom categories will appear here -->
-                </div>
             </div>
         </div>
 
@@ -374,7 +383,6 @@
                     <path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2z"/>
                 </svg>
                 <p class="text-xl">Nessuna frase in questa categoria</p>
-                <p class="text-sm">Aggiungi delle frasi per iniziare!</p>
             </div>
         </div>
     </div>
@@ -388,6 +396,19 @@
         let speechPitch = 1.0;
         let deferredPrompt = null;
         let isLoading = false;
+        let isIOSDevice = /iPad|iPhone|iPod/.test(navigator.userAgent);
+        let voiceLoadAttempts = 0;
+        const MAX_VOICE_ATTEMPTS = 20; // Increased for iOS
+
+        // Enhanced voice quality detection for iOS
+        const iosVoiceQuality = {
+            // Known high-quality Italian voices on iOS
+            excellent: ['Luca', 'Alice', 'Giorgio', 'Federica'],
+            // Known poor quality or non-Italian voices with it-IT tag
+            poor: ['Samantha', 'Alex', 'Victoria', 'Daniel', 'Karen', 'Moira', 'Rishi', 'Veena'],
+            // Patterns that indicate non-Italian voices
+            suspiciousPatterns: ['enhanced', 'compact', 'premium']
+        };
 
         // Default categories and phrases
         const defaultCategories = [
@@ -400,34 +421,25 @@
         ];
 
         const defaultPhrases = [
-            // Scuola
             { id: 1, text: 'Presente!', category: 'scuola' },
             { id: 2, text: 'Non ho capito, puoi spiegare di nuovo?', category: 'scuola' },
             { id: 3, text: 'Posso andare in bagno?', category: 'scuola' },
             { id: 4, text: 'Ho finito il compito', category: 'scuola' },
             { id: 5, text: 'Scusi, sono in ritardo', category: 'scuola' },
             { id: 6, text: 'Posso avere un foglio?', category: 'scuola' },
-            
-            // Casa
             { id: 7, text: 'Buongiorno famiglia!', category: 'casa' },
             { id: 8, text: 'Cosa mangiamo oggi?', category: 'casa' },
             { id: 9, text: 'Ho finito i compiti', category: 'casa' },
             { id: 10, text: 'Vado a riposare', category: 'casa' },
-            
-            // Amici
             { id: 11, text: 'Ciao! Come stai?', category: 'amici' },
             { id: 12, text: 'Ci vediamo dopo!', category: 'amici' },
             { id: 13, text: 'Vuoi fare qualcosa insieme?', category: 'amici' },
             { id: 14, text: 'Grazie per essere mio amico', category: 'amici' },
-            
-            // Bisogni
             { id: 15, text: 'Ho bisogno di aiuto', category: 'bisogni' },
             { id: 16, text: 'Ho fame', category: 'bisogni' },
             { id: 17, text: 'Ho sete', category: 'bisogni' },
             { id: 18, text: 'Sono stanco', category: 'bisogni' },
             { id: 19, text: 'Mi fa male la testa', category: 'bisogni' },
-            
-            // Emozioni
             { id: 20, text: 'Sono felice!', category: 'emozioni' },
             { id: 21, text: 'Mi sento triste', category: 'emozioni' },
             { id: 22, text: 'Sono nervoso', category: 'emozioni' },
@@ -435,125 +447,289 @@
             { id: 24, text: 'Grazie per avermi ascoltato', category: 'emozioni' }
         ];
 
-        // Initialize app
         let categories = [...defaultCategories];
         let phrases = [...defaultPhrases];
 
-        // Load saved data
-        function loadSavedData() {
-            const savedCategories = localStorage.getItem('voiceapp-categories');
-            const savedPhrases = localStorage.getItem('voiceapp-phrases');
-            const savedSettings = localStorage.getItem('voiceapp-settings');
-
-            if (savedCategories) {
-                categories = JSON.parse(savedCategories);
+        // Enhanced voice quality detection
+        function assessVoiceQuality(voice) {
+            if (!voice || !voice.name) return 'unknown';
+            
+            const name = voice.name.toLowerCase();
+            const lang = voice.lang.toLowerCase();
+            
+            // Check if it's a known excellent Italian voice
+            if (iosVoiceQuality.excellent.some(excellent => 
+                name.includes(excellent.toLowerCase()))) {
+                return 'excellent';
             }
-            if (savedPhrases) {
-                phrases = JSON.parse(savedPhrases);
+            
+            // Check if it's a known poor quality voice
+            if (iosVoiceQuality.poor.some(poor => 
+                name.includes(poor.toLowerCase()))) {
+                return 'poor';
             }
-            if (savedSettings) {
-                const settings = JSON.parse(savedSettings);
-                speechRate = settings.rate || 1.0;
-                speechPitch = settings.pitch || 1.0;
-                document.getElementById('speed-slider').value = speechRate;
-                document.getElementById('pitch-slider').value = speechPitch;
-                updateSpeed(speechRate);
-                updatePitch(speechPitch);
+            
+            // Check for suspicious patterns
+            if (iosVoiceQuality.suspiciousPatterns.some(pattern => 
+                name.includes(pattern))) {
+                return 'suspicious';
             }
+            
+            // If marked as Italian but has English-sounding name
+            if (lang.includes('it') && (
+                name.includes('english') || 
+                name.includes('us') || 
+                name.includes('uk') ||
+                !lang.includes('it-it')
+            )) {
+                return 'poor';
+            }
+            
+            // Default assessment
+            return lang.includes('it') ? 'good' : 'unknown';
         }
 
-        // Save data
-        function saveData() {
-            localStorage.setItem('voiceapp-categories', JSON.stringify(categories));
-            localStorage.setItem('voiceapp-phrases', JSON.stringify(phrases));
-            localStorage.setItem('voiceapp-settings', JSON.stringify({
-                rate: speechRate,
-                pitch: speechPitch
-            }));
-        }
-
-        // Initialize voices
+        // iOS-optimized voice loading
         function loadVoices() {
-            voices = speechSynthesis.getVoices();
+            document.getElementById('voice-loading').textContent = `(tentativo ${voiceLoadAttempts + 1}/${MAX_VOICE_ATTEMPTS})`;
+            
+            const allVoices = speechSynthesis.getVoices();
+            console.log(`Voice loading attempt ${voiceLoadAttempts + 1}: Found ${allVoices.length} voices`);
+            
+            if (allVoices.length === 0) {
+                if (voiceLoadAttempts < MAX_VOICE_ATTEMPTS) {
+                    voiceLoadAttempts++;
+                    // Progressive delay for iOS
+                    const delay = Math.min(voiceLoadAttempts * 300, 2000);
+                    setTimeout(loadVoices, delay);
+                    return;
+                } else {
+                    document.getElementById('voice-loading').textContent = '(timeout)';
+                    updateVoiceUI([], '❌ Timeout nel caricamento delle voci');
+                    return;
+                }
+            }
+
+            voices = allVoices;
+            document.getElementById('voice-loading').textContent = '';
+            
+            // Filter and assess Italian voices
+            const italianVoices = voices.filter(voice => 
+                voice.lang.toLowerCase().includes('it') ||
+                iosVoiceQuality.excellent.some(excellent => 
+                    voice.name.toLowerCase().includes(excellent.toLowerCase()))
+            );
+            
+            // Assess quality of each voice
+            const assessedVoices = italianVoices.map(voice => ({
+                ...voice,
+                quality: assessVoiceQuality(voice),
+                displayName: voice.name + (voice.default ? ' (Predefinita)' : '')
+            }));
+            
+            // Sort by quality: excellent > good > suspicious > poor
+            const qualityOrder = { excellent: 4, good: 3, suspicious: 2, poor: 1, unknown: 0 };
+            assessedVoices.sort((a, b) => qualityOrder[b.quality] - qualityOrder[a.quality]);
+            
+            updateVoiceUI(assessedVoices, `✅ ${allVoices.length} voci totali, ${assessedVoices.length} italiane analizzate`);
+            
+            // Auto-select best voice
+            if (assessedVoices.length > 0 && !selectedVoice) {
+                selectedVoice = assessedVoices[0];
+                document.getElementById('voice-select').value = voices.indexOf(selectedVoice);
+            }
+            
+            // Show iOS-specific help if needed
+            if (isIOSDevice && assessedVoices.filter(v => v.quality === 'excellent').length === 0) {
+                document.getElementById('ios-voice-help').style.display = 'block';
+            }
+        }
+
+        function updateVoiceUI(assessedVoices, infoMessage) {
             const voiceSelect = document.getElementById('voice-select');
             const voiceInfo = document.getElementById('voice-info');
             
             voiceSelect.innerHTML = '';
             
-            if (voices.length === 0) {
-                voiceSelect.innerHTML = '<option>Nessuna voce disponibile</option>';
-                voiceInfo.textContent = 'Nessuna voce trovata nel sistema';
+            if (assessedVoices.length === 0) {
+                voiceSelect.innerHTML = '<option>❌ Nessuna voce italiana trovata</option>';
+                voiceInfo.innerHTML = '<span class="text-red-600">' + infoMessage + '</span>';
                 return;
             }
-
-            // Separate Italian voices
-            const italianVoices = voices.filter(voice => voice.lang.startsWith('it'));
-            const otherVoices = voices.filter(voice => !voice.lang.startsWith('it'));
-
-            if (italianVoices.length > 0) {
-                const italianGroup = document.createElement('optgroup');
-                italianGroup.label = '🇮🇹 Voci Italiane';
-                italianVoices.forEach((voice, index) => {
-                    const option = document.createElement('option');
-                    option.value = index;
-                    option.textContent = `${voice.name}${voice.default ? ' (Predefinita)' : ''}`;
-                    italianGroup.appendChild(option);
-                });
-                voiceSelect.appendChild(italianGroup);
-                
-                // Auto-select first Italian voice
-                if (!selectedVoice) {
-                    selectedVoice = italianVoices[0];
-                    voiceSelect.value = voices.indexOf(italianVoices[0]);
-                }
-            }
-
-            if (otherVoices.length > 0) {
-                const otherGroup = document.createElement('optgroup');
-                otherGroup.label = '🌐 Altre Lingue';
-                otherVoices.forEach((voice, index) => {
+            
+            // Group voices by quality
+            const excellent = assessedVoices.filter(v => v.quality === 'excellent');
+            const good = assessedVoices.filter(v => v.quality === 'good');
+            const suspicious = assessedVoices.filter(v => v.quality === 'suspicious');
+            const poor = assessedVoices.filter(v => v.quality === 'poor');
+            
+            // Add excellent voices (real Italian voices)
+            if (excellent.length > 0) {
+                const excellentGroup = document.createElement('optgroup');
+                excellentGroup.label = '🇮🇹 ⭐ Voci Italiane Autentiche';
+                excellent.forEach(voice => {
                     const option = document.createElement('option');
                     option.value = voices.indexOf(voice);
-                    option.textContent = `${voice.name} (${voice.lang})`;
-                    otherGroup.appendChild(option);
+                    option.textContent = voice.displayName + ' ✨';
+                    excellentGroup.appendChild(option);
                 });
-                voiceSelect.appendChild(otherGroup);
+                voiceSelect.appendChild(excellentGroup);
             }
-
-            if (!selectedVoice && voices.length > 0) {
-                selectedVoice = voices[0];
-                voiceSelect.value = 0;
+            
+            // Add good voices
+            if (good.length > 0) {
+                const goodGroup = document.createElement('optgroup');
+                goodGroup.label = '🇮🇹 ✅ Voci Italiane Buone';
+                good.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voices.indexOf(voice);
+                    option.textContent = voice.displayName;
+                    goodGroup.appendChild(option);
+                });
+                voiceSelect.appendChild(goodGroup);
             }
-
-            voiceInfo.textContent = `${voices.length} voci disponibili - ${italianVoices.length} italiane`;
-
+            
+            // Add suspicious voices with warning
+            if (suspicious.length > 0) {
+                const suspiciousGroup = document.createElement('optgroup');
+                suspiciousGroup.label = '⚠️ Voci da Verificare';
+                suspicious.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voices.indexOf(voice);
+                    option.textContent = voice.displayName + ' ⚠️';
+                    suspiciousGroup.appendChild(option);
+                });
+                voiceSelect.appendChild(suspiciousGroup);
+            }
+            
+            // Add poor voices with clear warning
+            if (poor.length > 0) {
+                const poorGroup = document.createElement('optgroup');
+                poorGroup.label = '❌ Voci Non Italiane (evitare)';
+                poor.forEach(voice => {
+                    const option = document.createElement('option');
+                    option.value = voices.indexOf(voice);
+                    option.textContent = voice.displayName + ' (Non Italiana)';
+                    option.style.color = '#EF4444';
+                    poorGroup.appendChild(option);
+                });
+                voiceSelect.appendChild(poorGroup);
+            }
+            
+            // Update info message
+            let qualityInfo = '';
+            if (excellent.length > 0) {
+                qualityInfo += ` - ${excellent.length} autentiche italiane ⭐`;
+            }
+            if (good.length > 0) {
+                qualityInfo += ` - ${good.length} buone ✅`;
+            }
+            if (poor.length > 0) {
+                qualityInfo += ` - ${poor.length} non italiane ❌`;
+            }
+            
+            voiceInfo.innerHTML = `<span class="text-green-600">${infoMessage}${qualityInfo}</span>`;
+            
             // Add change listener
             voiceSelect.addEventListener('change', function() {
-                selectedVoice = voices[this.value];
+                const index = parseInt(this.value);
+                if (!isNaN(index) && voices[index]) {
+                    selectedVoice = voices[index];
+                    console.log('Voice changed to:', selectedVoice.name, '- Quality:', assessVoiceQuality(selectedVoice));
+                }
             });
         }
 
-        // Speech functions
+        // Force voice reload for iOS
+        function forceVoiceReload() {
+            document.getElementById('voice-loading').textContent = '(ricaricando...)';
+            voiceLoadAttempts = 0;
+            
+            // Force iOS to reload voices
+            speechSynthesis.cancel();
+            
+            // Create a silent utterance to trigger voice loading
+            const silentUtterance = new SpeechSynthesisUtterance('');
+            silentUtterance.volume = 0;
+            speechSynthesis.speak(silentUtterance);
+            speechSynthesis.cancel();
+            
+            // Wait and reload
+            setTimeout(() => {
+                loadVoices();
+            }, 500);
+        }
+
+        // Voice diagnostic for iOS
+        function runVoiceDiagnostic() {
+            const diagnosticsDiv = document.getElementById('voice-diagnostics');
+            diagnosticsDiv.style.display = 'block';
+            diagnosticsDiv.innerHTML = '<strong>🔍 Avviando diagnosi...</strong>';
+            
+            setTimeout(() => {
+                const allVoices = speechSynthesis.getVoices();
+                let diagnosticInfo = `<strong>📊 Risultati Diagnosi:</strong><br>`;
+                diagnosticInfo += `• Voci totali trovate: ${allVoices.length}<br>`;
+                diagnosticInfo += `• Dispositivo: ${isIOSDevice ? 'iOS' : 'Altro'}<br>`;
+                diagnosticInfo += `• Browser: ${navigator.userAgent.includes('Safari') ? 'Safari' : 'Altro'}<br><br>`;
+                
+                diagnosticInfo += `<strong>🇮🇹 Analisi Voci Italiane:</strong><br>`;
+                
+                const italianVoices = allVoices.filter(v => 
+                    v.lang.toLowerCase().includes('it') ||
+                    iosVoiceQuality.excellent.some(ex => 
+                        v.name.toLowerCase().includes(ex.toLowerCase()))
+                );
+                
+                if (italianVoices.length === 0) {
+                    diagnosticInfo += `❌ Nessuna voce italiana rilevata<br>`;
+                    diagnosticInfo += `<br><strong>💡 Soluzioni:</strong><br>`;
+                    diagnosticInfo += `• Vai in Impostazioni iOS → Accessibilità → Contenuti letti ad alta voce → Voci<br>`;
+                    diagnosticInfo += `• Scarica "Luca" e "Alice" dalla sezione Italiano<br>`;
+                    diagnosticInfo += `• Ricarica questa pagina dopo il download<br>`;
+                } else {
+                    italianVoices.forEach(voice => {
+                        const quality = assessVoiceQuality(voice);
+                        const indicator = quality === 'excellent' ? '⭐' : 
+                                        quality === 'good' ? '✅' : 
+                                        quality === 'suspicious' ? '⚠️' : '❌';
+                        diagnosticInfo += `${indicator} ${voice.name} (${voice.lang}) - ${quality}<br>`;
+                    });
+                    
+                    const excellentCount = italianVoices.filter(v => assessVoiceQuality(v) === 'excellent').length;
+                    if (excellentCount === 0) {
+                        diagnosticInfo += `<br><strong>⚠️ Nota:</strong> Nessuna voce italiana autentica trovata.<br>`;
+                        diagnosticInfo += `Le voci Siri (come Luca) potrebbero non essere disponibili per le app web.`;
+                    } else {
+                        diagnosticInfo += `<br><strong>✅ Ottimo!</strong> ${excellentCount} voci italiane autentiche trovate.`;
+                    }
+                }
+                
+                diagnosticsDiv.innerHTML = diagnosticInfo;
+            }, 1000);
+        }
+
+        // Enhanced speech synthesis for iOS
         function speakText(text = null) {
             const textToSpeak = text || document.getElementById('main-input').value.trim();
             
             if (!textToSpeak) {
-                alert('Scrivi qualcosa da far pronunciare!');
+                alert('✍️ Scrivi qualcosa da far pronunciare!');
                 return;
             }
 
             if (isLoading) return;
 
-            // Vibrate if available
+            // Haptic feedback for iOS
             if (navigator.vibrate) {
-                navigator.vibrate(50);
+                navigator.vibrate([50, 30, 50]);
             }
 
             const speakButton = document.getElementById('speak-button');
             const speakIcon = document.getElementById('speak-icon');
             const speakLabel = document.getElementById('speak-label');
 
-            // Update UI
+            // Update UI to loading state
             isLoading = true;
             speakIcon.innerHTML = '<div class="loading-spinner"></div>';
             speakLabel.textContent = 'Parlando...';
@@ -562,36 +738,77 @@
             // Cancel any ongoing speech
             speechSynthesis.cancel();
 
+            // Create utterance with iOS optimizations
             const utterance = new SpeechSynthesisUtterance(textToSpeak);
             utterance.rate = speechRate;
             utterance.pitch = speechPitch;
             utterance.volume = 1.0;
             utterance.lang = 'it-IT';
 
+            // Set voice with fallback
             if (selectedVoice) {
                 utterance.voice = selectedVoice;
+                console.log('Using voice:', selectedVoice.name, '- Quality:', assessVoiceQuality(selectedVoice));
+            } else {
+                console.warn('No voice selected, using system default');
             }
 
+            // Event handlers
             utterance.onstart = () => {
-                console.log('Speech started');
+                console.log('Speech started:', textToSpeak.substring(0, 50) + '...');
             };
 
             utterance.onend = () => {
                 resetSpeakButton();
+                console.log('Speech ended successfully');
             };
 
             utterance.onerror = (event) => {
-                console.error('Speech error:', event.error);
+                console.error('Speech error:', event.error, event);
                 resetSpeakButton();
-                alert('Errore nella sintesi vocale. Riprova.');
+                
+                // iOS-specific error handling
+                let errorMessage = 'Errore nella sintesi vocale.';
+                if (isIOSDevice) {
+                    switch(event.error) {
+                        case 'network':
+                            errorMessage += ' Verifica la connessione. Su iOS, alcune voci richiedono internet.';
+                            break;
+                        case 'synthesis-unavailable':
+                            errorMessage += ' Voce non disponibile. Prova a cambiare voce nelle impostazioni.';
+                            break;
+                        case 'synthesis-failed':
+                            errorMessage += ' Sintesi fallita. Alcune voci iOS potrebbero non funzionare nelle app web.';
+                            break;
+                        default:
+                            errorMessage += ' Prova una voce diversa o ricarica le voci nelle impostazioni.';
+                    }
+                } else {
+                    errorMessage += ' Riprova o cambia voce nelle impostazioni.';
+                }
+                
+                alert(errorMessage);
             };
 
+            utterance.onboundary = (event) => {
+                // iOS sometimes has issues with boundary events
+                console.log('Speech boundary:', event.name);
+            };
+
+            // Start speaking with iOS-specific handling
             try {
                 speechSynthesis.speak(utterance);
+                
+                // iOS Safari sometimes needs a push
+                if (isIOSDevice && speechSynthesis.paused) {
+                    speechSynthesis.resume();
+                }
+                
+                console.log('Speech synthesis started');
             } catch (error) {
-                console.error('Speech synthesis error:', error);
+                console.error('Failed to start speech synthesis:', error);
                 resetSpeakButton();
-                alert('Errore nella sintesi vocale. Riprova.');
+                alert('Impossibile avviare la sintesi vocale. Su iOS, assicurati di essere in Safari e di aver scaricato le voci italiane.');
             }
         }
 
@@ -601,15 +818,22 @@
             const speakLabel = document.getElementById('speak-label');
             const speakButton = document.getElementById('speak-button');
             
-            speakIcon.innerHTML = '<path d="M12 3L6 9H2v6h4l6 6V3z"/>';
+            speakIcon.innerHTML = `<path d="M12 3L6 9H2v6h4l6 6V3z"/>`;
             speakLabel.textContent = 'Parla';
             speakButton.disabled = false;
         }
 
         function testVoice() {
-            speakText('Ciao! Questa è la mia voce. Come ti sembra?');
+            const testPhrases = [
+                'Ciao! Questa è la mia voce italiana. Come ti sembra la pronuncia?',
+                'Sto testando la qualità della sintesi vocale italiana.',
+                'Se senti un accento straniero, cambia voce nelle impostazioni.'
+            ];
+            const randomPhrase = testPhrases[Math.floor(Math.random() * testPhrases.length)];
+            speakText(randomPhrase);
         }
 
+        // Other functions (shortened for space)
         function clearText() {
             document.getElementById('main-input').value = '';
         }
@@ -617,7 +841,7 @@
         function savePhrase() {
             const text = document.getElementById('main-input').value.trim();
             if (!text) {
-                alert('Scrivi una frase da salvare!');
+                alert('✍️ Scrivi una frase da salvare!');
                 return;
             }
             
@@ -628,12 +852,11 @@
             };
             
             phrases.push(newPhrase);
-            saveData();
+            localStorage.setItem('voiceconnect-phrases', JSON.stringify(phrases));
             renderPhrases();
-            alert('Frase salvata!');
+            alert('📝 Frase salvata!');
         }
 
-        // Settings functions
         function updateSpeed(value) {
             speechRate = parseFloat(value);
             document.getElementById('speed-value').textContent = speechRate.toFixed(1);
@@ -667,108 +890,6 @@
             currentCategory = categoryId;
             if (navigator.vibrate) navigator.vibrate(30);
             renderCategories();
-            renderPhrases();
-        }
-
-        function toggleCategoryManager() {
-            const panel = document.getElementById('category-manager');
-            panel.style.display = panel.style.display === 'none' ? 'block' : 'none';
-            if (panel.style.display === 'block') {
-                renderCustomCategories();
-            }
-        }
-
-        function addNewCategory() {
-            const nameInput = document.getElementById('new-category-name');
-            const name = nameInput.value.trim();
-            
-            if (!name) {
-                alert('Inserisci un nome per la categoria!');
-                return;
-            }
-
-            const colors = ['#3B82F6', '#10B981', '#F59E0B', '#EF4444', '#8B5CF6', '#EC4899', '#06B6D4', '#84CC16'];
-            const randomColor = colors[Math.floor(Math.random() * colors.length)];
-
-            const newCategory = {
-                id: 'custom_' + Date.now(),
-                name: '📝 ' + name,
-                color: randomColor,
-                removable: true
-            };
-
-            categories.push(newCategory);
-            nameInput.value = '';
-            saveData();
-            renderCategories();
-            renderCustomCategories();
-        }
-
-        function renderCustomCategories() {
-            const container = document.getElementById('custom-categories');
-            container.innerHTML = '';
-
-            const customCategories = categories.filter(cat => cat.removable);
-            
-            customCategories.forEach(category => {
-                const div = document.createElement('div');
-                div.className = 'bg-white p-4 rounded-xl border-2 border-gray-200';
-                div.innerHTML = `
-                    <div class="flex justify-between items-center">
-                        <span class="font-semibold">${category.name}</span>
-                        <div class="flex gap-2">
-                            <button onclick="editCategory('${category.id}')" class="text-blue-500 hover:text-blue-700">
-                                ✏️
-                            </button>
-                            <button onclick="deleteCategory('${category.id}')" class="text-red-500 hover:text-red-700">
-                                🗑️
-                            </button>
-                        </div>
-                    </div>
-                    <div class="text-sm text-gray-500 mt-2">
-                        ${phrases.filter(p => p.category === category.id).length} frasi
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function editCategory(categoryId) {
-            const category = categories.find(c => c.id === categoryId);
-            if (!category) return;
-
-            const newName = prompt('Nuovo nome per la categoria:', category.name.replace('📝 ', ''));
-            if (newName && newName.trim()) {
-                category.name = '📝 ' + newName.trim();
-                saveData();
-                renderCategories();
-                renderCustomCategories();
-            }
-        }
-
-        function deleteCategory(categoryId) {
-            if (!confirm('Sei sicuro di voler eliminare questa categoria? Le frasi verranno spostate in "Scuola".')) {
-                return;
-            }
-
-            // Move phrases to 'scuola' category
-            phrases.forEach(phrase => {
-                if (phrase.category === categoryId) {
-                    phrase.category = 'scuola';
-                }
-            });
-
-            // Remove category
-            categories = categories.filter(c => c.id !== categoryId);
-
-            // Reset current category if it was deleted
-            if (currentCategory === categoryId) {
-                currentCategory = 'tutte';
-            }
-
-            saveData();
-            renderCategories();
-            renderCustomCategories();
             renderPhrases();
         }
 
@@ -821,7 +942,7 @@
             const text = input.value.trim();
             
             if (!text) {
-                alert('Scrivi una frase da aggiungere!');
+                alert('✍️ Scrivi una frase da aggiungere!');
                 return;
             }
             
@@ -833,7 +954,7 @@
             
             phrases.push(newPhrase);
             input.value = '';
-            saveData();
+            localStorage.setItem('voiceconnect-phrases', JSON.stringify(phrases));
             renderPhrases();
         }
 
@@ -844,7 +965,7 @@
             const newText = prompt('Modifica la frase:', phrase.text);
             if (newText && newText.trim()) {
                 phrase.text = newText.trim();
-                saveData();
+                localStorage.setItem('voiceconnect-phrases', JSON.stringify(phrases));
                 renderPhrases();
             }
         }
@@ -852,12 +973,12 @@
         function deletePhrase(phraseId) {
             if (confirm('Sei sicuro di voler eliminare questa frase?')) {
                 phrases = phrases.filter(p => p.id !== phraseId);
-                saveData();
+                localStorage.setItem('voiceconnect-phrases', JSON.stringify(phrases));
                 renderPhrases();
             }
         }
 
-        // Keyboard handlers
+        // Event handlers
         function handleKeyPress(event) {
             if (event.key === 'Enter' && event.ctrlKey) {
                 speakText();
@@ -895,6 +1016,88 @@
             localStorage.setItem('installPromptClosed', 'true');
         }
 
+        // Initialize app
+        function initApp() {
+            console.log('🚀 Initializing VoiceConnect for', isIOSDevice ? 'iOS' : 'other platform');
+            
+            // Show iOS detection
+            if (isIOSDevice) {
+                document.getElementById('ios-detection').style.display = 'block';
+            }
+            
+            // Load saved data
+            const savedPhrases = localStorage.getItem('voiceconnect-phrases');
+            if (savedPhrases) {
+                phrases = JSON.parse(savedPhrases);
+            }
+            
+            renderCategories();
+            renderPhrases();
+            
+            // Initialize voice system with iOS optimizations
+            if (speechSynthesis) {
+                speechSynthesis.onvoiceschanged = loadVoices;
+                
+                // iOS-specific voice loading strategy
+                if (isIOSDevice) {
+                    // Force immediate voice loading attempt
+                    const silentUtterance = new SpeechSynthesisUtterance('');
+                    silentUtterance.volume = 0;
+                    speechSynthesis.speak(silentUtterance);
+                    speechSynthesis.cancel();
+                }
+                
+                // Start voice loading
+                setTimeout(loadVoices, 100);
+                
+            } else {
+                console.warn('Speech synthesis not supported');
+                document.getElementById('voice-info').innerHTML = 
+                    '<span class="text-red-600">❌ Sintesi vocale non supportata da questo browser</span>';
+            }
+            
+            // Set up connection monitoring
+            window.addEventListener('online', updateOnlineStatus);
+            window.addEventListener('offline', updateOnlineStatus);
+            updateOnlineStatus();
+            
+            console.log('✅ VoiceConnect initialized');
+        }
+
+        // iOS-specific PWA installation
+        if (isIOSDevice) {
+            // Show iOS-specific install prompt
+            if (localStorage.getItem('installPromptClosed') !== 'true') {
+                setTimeout(() => {
+                    document.getElementById('install-prompt').style.display = 'block';
+                }, 3000);
+            }
+        } else {
+            // Android PWA installation
+            window.addEventListener('beforeinstallprompt', (e) => {
+                e.preventDefault();
+                deferredPrompt = e;
+                
+                if (localStorage.getItem('installPromptClosed') !== 'true') {
+                    document.getElementById('install-prompt').innerHTML = `
+                        <h3 class="text-xl font-bold mb-2">📱 Installa VoiceConnect</h3>
+                        <p class="mb-4">Tocca "Installa" per aggiungere l'app al tuo dispositivo</p>
+                        <div class="flex gap-3 justify-center">
+                            <button onclick="installApp()" class="bg-white bg-opacity-20 px-6 py-3 rounded-xl font-bold">
+                                Installa
+                            </button>
+                            <button onclick="closeInstallPrompt()" class="bg-black bg-opacity-20 px-6 py-3 rounded-xl font-bold">
+                                Chiudi
+                            </button>
+                        </div>
+                    `;
+                    setTimeout(() => {
+                        document.getElementById('install-prompt').style.display = 'block';
+                    }, 2000);
+                }
+            });
+        }
+
         function installApp() {
             if (deferredPrompt) {
                 deferredPrompt.prompt();
@@ -907,72 +1110,11 @@
             }
         }
 
-        // Initialize app
-        function initApp() {
-            console.log('Initializing VoiceConnect...');
-            
-            loadSavedData();
-            renderCategories();
-            renderPhrases();
-            
-            // Load voices
-            if (speechSynthesis) {
-                speechSynthesis.onvoiceschanged = loadVoices;
-                loadVoices();
-                
-                // Retry loading voices
-                let attempts = 0;
-                const maxAttempts = 10;
-                const retryLoadVoices = setInterval(() => {
-                    attempts++;
-                    if (speechSynthesis.getVoices().length > 0 || attempts >= maxAttempts) {
-                        clearInterval(retryLoadVoices);
-                        loadVoices();
-                    }
-                }, 500);
-            }
-            
-            // Set up online/offline listeners
-            window.addEventListener('online', updateOnlineStatus);
-            window.addEventListener('offline', updateOnlineStatus);
-            updateOnlineStatus();
-            
-            console.log('VoiceConnect initialized successfully');
-        }
-
-        // PWA Installation
-        window.addEventListener('beforeinstallprompt', (e) => {
-            e.preventDefault();
-            deferredPrompt = e;
-            
-            if (localStorage.getItem('installPromptClosed') !== 'true') {
-                const installPrompt = document.getElementById('install-prompt');
-                const installText = document.getElementById('install-text');
-                const installBtn = document.getElementById('install-btn');
-                
-                if (/iPhone|iPad/.test(navigator.userAgent)) {
-                    installText.textContent = 'Tocca Condividi e poi "Aggiungi a Home" per installare';
-                    installBtn.style.display = 'none';
-                } else {
-                    installBtn.style.display = 'block';
-                }
-                
-                setTimeout(() => {
-                    installPrompt.style.display = 'block';
-                }, 2000);
-            }
-        });
-
-        window.addEventListener('appinstalled', () => {
-            console.log('PWA installed successfully');
-            closeInstallPrompt();
-        });
-
-        // Service Worker Registration
+        // Service Worker for iOS PWA
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', () => {
                 const swCode = `
-                    const CACHE_NAME = 'voiceconnect-v1';
+                    const CACHE_NAME = 'voiceconnect-ios-v1';
                     const urlsToCache = [
                         '/',
                         'https://cdn.tailwindcss.com'
@@ -982,7 +1124,6 @@
                         event.waitUntil(
                             caches.open(CACHE_NAME)
                                 .then((cache) => cache.addAll(urlsToCache))
-                                .catch((error) => console.log('Cache failed:', error))
                         );
                     });
 
@@ -990,14 +1131,7 @@
                         event.respondWith(
                             caches.match(event.request)
                                 .then((response) => {
-                                    if (response) {
-                                        return response;
-                                    }
-                                    return fetch(event.request).catch(() => {
-                                        if (event.request.destination === 'document') {
-                                            return caches.match('/');
-                                        }
-                                    });
+                                    return response || fetch(event.request);
                                 })
                         );
                     });
@@ -1022,12 +1156,12 @@
             initApp();
         }
 
-        // Prevent zoom on iOS
+        // iOS gesture prevention
         document.addEventListener('gesturestart', function(e) {
             e.preventDefault();
         });
 
-        // Prevent double-tap zoom
+        // Prevent double-tap zoom on iOS
         let lastTouchEnd = 0;
         document.addEventListener('touchend', function(event) {
             const now = (new Date()).getTime();
