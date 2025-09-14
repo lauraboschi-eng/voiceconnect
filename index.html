@@ -545,6 +545,7 @@
             }
         }
 
+        // Simplified voice UI update
         function updateVoiceUI(assessedVoices, infoMessage) {
             const voiceSelect = document.getElementById('voice-select');
             const voiceInfo = document.getElementById('voice-info');
@@ -557,85 +558,46 @@
                 return;
             }
             
-            // Group voices by quality
+            // Simple grouping: excellent first, then others
             const excellent = assessedVoices.filter(v => v.quality === 'excellent');
-            const good = assessedVoices.filter(v => v.quality === 'good');
-            const suspicious = assessedVoices.filter(v => v.quality === 'suspicious');
-            const poor = assessedVoices.filter(v => v.quality === 'poor');
+            const others = assessedVoices.filter(v => v.quality !== 'excellent');
             
-            // Add excellent voices (real Italian voices)
             if (excellent.length > 0) {
                 const excellentGroup = document.createElement('optgroup');
-                excellentGroup.label = '🇮🇹 ⭐ Voci Italiane Autentiche';
+                excellentGroup.label = '🇮🇹 ⭐ Voci Italiane Migliori';
                 excellent.forEach(voice => {
                     const option = document.createElement('option');
                     option.value = voices.indexOf(voice);
-                    option.textContent = voice.displayName + ' ✨';
+                    option.textContent = voice.displayName + ' ⭐';
                     excellentGroup.appendChild(option);
                 });
                 voiceSelect.appendChild(excellentGroup);
             }
             
-            // Add good voices
-            if (good.length > 0) {
-                const goodGroup = document.createElement('optgroup');
-                goodGroup.label = '🇮🇹 ✅ Voci Italiane Buone';
-                good.forEach(voice => {
+            if (others.length > 0) {
+                const othersGroup = document.createElement('optgroup');
+                othersGroup.label = '🇮🇹 Altre Voci Italiane';
+                others.forEach(voice => {
                     const option = document.createElement('option');
                     option.value = voices.indexOf(voice);
                     option.textContent = voice.displayName;
-                    goodGroup.appendChild(option);
+                    if (voice.quality === 'poor') {
+                        option.textContent += ' (Verifica Pronuncia)';
+                        option.style.color = '#F59E0B';
+                    }
+                    othersGroup.appendChild(option);
                 });
-                voiceSelect.appendChild(goodGroup);
+                voiceSelect.appendChild(othersGroup);
             }
             
-            // Add suspicious voices with warning
-            if (suspicious.length > 0) {
-                const suspiciousGroup = document.createElement('optgroup');
-                suspiciousGroup.label = '⚠️ Voci da Verificare';
-                suspicious.forEach(voice => {
-                    const option = document.createElement('option');
-                    option.value = voices.indexOf(voice);
-                    option.textContent = voice.displayName + ' ⚠️';
-                    suspiciousGroup.appendChild(option);
-                });
-                voiceSelect.appendChild(suspiciousGroup);
-            }
-            
-            // Add poor voices with clear warning
-            if (poor.length > 0) {
-                const poorGroup = document.createElement('optgroup');
-                poorGroup.label = '❌ Voci Non Italiane (evitare)';
-                poor.forEach(voice => {
-                    const option = document.createElement('option');
-                    option.value = voices.indexOf(voice);
-                    option.textContent = voice.displayName + ' (Non Italiana)';
-                    option.style.color = '#EF4444';
-                    poorGroup.appendChild(option);
-                });
-                voiceSelect.appendChild(poorGroup);
-            }
-            
-            // Update info message
-            let qualityInfo = '';
-            if (excellent.length > 0) {
-                qualityInfo += ` - ${excellent.length} autentiche italiane ⭐`;
-            }
-            if (good.length > 0) {
-                qualityInfo += ` - ${good.length} buone ✅`;
-            }
-            if (poor.length > 0) {
-                qualityInfo += ` - ${poor.length} non italiane ❌`;
-            }
-            
-            voiceInfo.innerHTML = `<span class="text-green-600">${infoMessage}${qualityInfo}</span>`;
+            voiceInfo.innerHTML = `<span class="text-green-600">${infoMessage}</span>`;
             
             // Add change listener
             voiceSelect.addEventListener('change', function() {
                 const index = parseInt(this.value);
                 if (!isNaN(index) && voices[index]) {
                     selectedVoice = voices[index];
-                    console.log('Voice changed to:', selectedVoice.name, '- Quality:', assessVoiceQuality(selectedVoice));
+                    console.log('Voice changed to:', selectedVoice.name);
                 }
             });
         }
